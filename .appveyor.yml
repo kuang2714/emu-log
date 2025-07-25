@@ -31,7 +31,9 @@ test_script:
 - go test -v -cover ./...
 
 stack:
+- go 1.10
 - go 1.14
+- go 1.19
 
 image:
 - MacOS
@@ -51,9 +53,9 @@ for:
 - matrix:
     only:
     - image: MacOS
-      stack: go 1.14
+      stack: go 1.19
   init:
-  - gvm install go1.14 --binary
+  - gvm install go1.19 --binary
   before_build:
   - sw_vers
   before_test:
@@ -73,7 +75,7 @@ for:
     - image: Ubuntu
   clone_folder: '$HOME/go/src/github.com/arnie97/emu-log'
   init:
-  - gvm install go1.14 --binary
+  - gvm install go1.10 --binary
   before_build:
   - lsb_release -a
   - export GOPATH=$HOME/go
