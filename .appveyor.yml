@@ -8,10 +8,16 @@ environment:
   GO111MODULE: on
 
 install:
+- bash -c "if ! command -v gvm &> /dev/null; then bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer); fi"
+- source ~/.gvm/scripts/gvm
+- gvm install go1.14 --binary
+- gvm use go1.14
 - uname -a
 - go version
 - go env
 - gcc --version
+- echo $GOPATH
+- echo $PATH
 
 build_script:
 - go mod tidy || true
@@ -25,9 +31,7 @@ test_script:
 - go test -v -cover ./...
 
 stack:
-- go 1.10
 - go 1.14
-- go 1.19
 
 image:
 - MacOS
@@ -47,9 +51,9 @@ for:
 - matrix:
     only:
     - image: MacOS
-      stack: go 1.19
+      stack: go 1.14
   init:
-  - gvm install go1.19 --binary
+  - gvm install go1.14 --binary
   before_build:
   - sw_vers
   before_test:
@@ -69,7 +73,7 @@ for:
     - image: Ubuntu
   clone_folder: '$HOME/go/src/github.com/arnie97/emu-log'
   init:
-  - gvm install go1.10 --binary
+  - gvm install go1.14 --binary
   before_build:
   - lsb_release -a
   - export GOPATH=$HOME/go
